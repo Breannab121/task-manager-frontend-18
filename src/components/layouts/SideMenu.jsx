@@ -3,34 +3,44 @@ import { SIDE_MENU_DATA, SIDE_MENU_USER_DATA } from "../../utils/data";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 
+// SideMenu component to render navigation links for admin or user roles
 const SideMenu = ({ activeMenu }) => {
-    const { user, clearUser } = useContext(UserContext);
+  // Access user data and logout function from UserContext
+  const { user, clearUser } = useContext(UserContext);
+
+  // State to hold menu data based on user role
   const [sideMenuData, setSideMenuData] = useState([]);
 
   const navigate = useNavigate();
 
+  // Handles navigation or logout
   const handleClick = (route) => {
     if (route === "logout") {
-      handelLogout();
+      handelLogout(); // Call logout handler
       return;
     }
 
-    navigate(route);
+    navigate(route); // Navigate to the specified route
   };
 
+  // Clears session and redirects to login page
   const handelLogout = () => {
-    localStorage.clear();
-    clearUser();
-    navigate("/login");
+    localStorage.clear(); // Clear local storage
+    clearUser(); // Clear user context
+    navigate("/login"); // Redirect to login
   };
 
+  // Set menu data based on whether the user is admin or regular user
   useEffect(() => {
-    if(user){
-      setSideMenuData(user?.role === 'admin' ? SIDE_MENU_DATA : SIDE_MENU_USER_DATA)
+    if (user) {
+      setSideMenuData(user?.role === 'admin' ? SIDE_MENU_DATA : SIDE_MENU_USER_DATA);
     }
     return () => {};
   }, [user]);
-  return <div className="w-64 h-[calc(100vh-61px)] bg-white border-r border-gray-200/50 sticky top-[61px] z-20">
+
+  return (
+    <div className="w-64 h-[calc(100vh-61px)] bg-white border-r border-gray-200/50 sticky top-[61px] z-20">
+      {/* User profile section */}
       <div className="flex flex-col items-center justify-center mb-7 pt-5">
         <div className="relative">
           <img
@@ -40,19 +50,21 @@ const SideMenu = ({ activeMenu }) => {
           />
         </div>
 
+        {/* Show 'Admin' tag if user is an admin */}
         {user?.role === "admin" && (
           <div className="text-[10px] font-medium text-white bg-primary px-3 py-0.5 rounded mt-1">
             Admin
           </div>
         )}
 
+        {/* Display user name and email */}
         <h5 className="text-gray-950 font-medium leading-6 mt-3">
           {user?.name || ""}
         </h5>
-
         <p className="text-[12px] text-gray-500">{user?.email || ""}</p>
       </div>
 
+      {/* Render menu items */}
       {sideMenuData.map((item, index) => (
         <button
           key={`menu_${index}`}
@@ -67,7 +79,8 @@ const SideMenu = ({ activeMenu }) => {
           {item.label}
         </button>
       ))}
-    </div>;
+    </div>
+  );
 };
 
 export default SideMenu;

@@ -15,12 +15,16 @@ const COLORS = ["#8D51FF", "#00B8DB", "#7BCE00"];
 
 
 const UserDashboard = () => {
+  // Hook to protect route and redirect if user is not authenticated
   useUserAuth();
 
+  // Access current user from context
+  const [dashboardData, setDashboardData] = useState(null);
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
 
+  // Fetch and store dashboard stats (task data)
   const getDashboardData = async () => {
     try {
       const response = await axiosInstance.get(
@@ -28,25 +32,26 @@ const UserDashboard = () => {
       );
       if (response.data) {
         setDashboardData(response.data);
-
       }
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
-  const onSeeMore = ()=>{
-    navigate('/admin/tasks')
-  }
+  // Navigate to admin tasks page when "See More" is clicked
+  const onSeeMore = () => {
+    navigate('/admin/tasks');
+  };
 
+  // Fetch dashboard data when component mounts
   useEffect(() => {
     getDashboardData();
-
     return () => {};
   }, []);
 
   return (
     <DashboardLayout activeMenu="Dashboard">
+      {/* Welcome Card */}
       <div className="card my-5">
         <div>
           <div className="col-span-3">
@@ -57,6 +62,7 @@ const UserDashboard = () => {
           </div>
         </div>
 
+        {/* Stats Overview */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mt-5">
           <InfoCard
             label="Total Tasks"
@@ -92,14 +98,15 @@ const UserDashboard = () => {
         </div>
       </div>
 
+      {/* Recent Tasks Table */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 md:my-6">
-        
         <div>
           <div className="card">
             <div className="flex items-center justify-between">
               <h5 className="font-medium">Task Distribution</h5>
             </div>
 
+            {/* List of recently assigned tasks */}
             <TaskListTable tableData={dashboardData?.recentTasks || []} />
           </div>
         </div>

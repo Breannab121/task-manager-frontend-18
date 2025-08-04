@@ -4,6 +4,8 @@ import AvatarGroup from "../AvatarGroup";
 import { LuPaperclip } from "react-icons/lu";
 import moment from "moment";
 
+// TaskCard component displays a single task's details, such as title, description, status, priority, dates, and assignees
+//A lot of styling on the page. functionality can be found on the pages folder.
 const TaskCard = ({
   title,
   description,
@@ -13,11 +15,11 @@ const TaskCard = ({
   createdAt,
   dueDate,
   assignedTo,
-  attachmentCount,
   completedTodoCount,
   todoChecklist,
   onClick,
 }) => {
+   // Helper function to determine status tag styling based on current status
   const getStatusTagColor = () => {
     switch (status) {
       case "In Progress":
@@ -30,7 +32,7 @@ const TaskCard = ({
         return "text-violet-500 bg-violet-50 border border-violet-500/10";
     }
   };
-
+   // Helper function to determine priority tag styling based on current priority
   const getPriorityTagColor = () => {
     switch (priority) {
       case "Low":
@@ -44,6 +46,7 @@ const TaskCard = ({
     }
   };
 
+    // Outer container with shadow, border, padding, and click handler
   return <div
       className="bg-white rounded-xl py-4 shadow-md shadow-gray-100 border border-gray-200/50 cursor-pointer"
       onClick={onClick}
@@ -108,12 +111,7 @@ const TaskCard = ({
         <div className="flex items-center justify-between mt-3">
           <AvatarGroup avatars={assignedTo || []} />
 
-          {attachmentCount > 0 && (
-            <div className="flex items-center gap-2 bg-blue-50 px-2.5 py-1.5 rounded-lg">
-              <LuPaperclip className="text-primary" />{" "}
-              <span className="text-xs text-gray-900">{attachmentCount}</span>
-            </div>
-          )}
+          
         </div>
       </div>
     </div>

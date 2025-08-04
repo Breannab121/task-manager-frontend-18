@@ -1,6 +1,7 @@
 export const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 // utils/apiPaths.js
+//Authentication-related API paths:
 export const API_PATHS = {
   AUTH: {
     REGISTER: "/api/auth/register", // Register a new user (Admin or Member)
@@ -8,6 +9,8 @@ export const API_PATHS = {
     GET_PROFILE: "/api/auth/profile", // Get logged-in user details
   },
 
+
+  //User management endpoints:
   USERS: {
     GET_ALL_USERS: "/api/users", // Get all users (Admin only)
     GET_USER_BY_ID: (userId) => `/api/users/${userId}`, // Get user by ID
@@ -16,6 +19,7 @@ export const API_PATHS = {
     DELETE_USER: (userId) => `/api/users/${userId}`, // Delete a user
   },
 
+  //Task-related endpoints:
   TASKS: {
     GET_DASHBOARD_DATA: "/api/tasks/dashboard-data", // Get Dashboard Data
     GET_USER_DASHBOARD_DATA: "/api/tasks/user-dashboard-data", // Get User Dashboard Data
@@ -29,7 +33,7 @@ export const API_PATHS = {
     UPDATE_TODO_CHECKLIST: (taskId) => `/api/tasks/${taskId}/todo`, // Update todo checklist
   },
 
-
+//Image upload endpoint:
   IMAGE: {
     UPLOAD_IMAGE: "api/auth/upload-image",
   },
